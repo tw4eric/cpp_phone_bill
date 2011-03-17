@@ -1,10 +1,12 @@
 #include "call_parser/FileBasedCallDataParser.hh"
 
-#include <fstream>
+//#include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <boost/xpressive/xpressive.hpp>
 #include <boost/lexical_cast.hpp>
+
+#include "util/FileReader.hh"
 
 using namespace std;
 using namespace boost::xpressive;
@@ -21,23 +23,30 @@ namespace CallParser {
     list<CallRecord*>* FileBasedCallDataParser::parseRecords() {
         list<CallRecord*>* callRecordList = new list<CallRecord*> ;
 
-        ifstream recFile(_fileName.c_str());
-
+        //ifstream recFile(_fileName.c_str());
+        util::FileReader fileReader(_fileName);
+        /*
         if (!recFile) {
             cerr << "Unable to open file: " << _fileName << endl;
+            return callRecordList;
+        }
+        */
+        if (!fileReader.open()) {
             return callRecordList;
         }
 
         string line;
 
-        while (std::getline(recFile, line)) {
+       // while (std::getline(recFile, line)) {
+        while ((line = fileReader.getLine()) != "") {
             CallRecord* callRec = toCallRecord(line);
             if(callRec != NULL){
                 callRecordList->push_back(callRec);
             }
         }
 
-        recFile.close();
+        //recFile.close();
+        fileReader.close();
 
         return callRecordList;
     }
