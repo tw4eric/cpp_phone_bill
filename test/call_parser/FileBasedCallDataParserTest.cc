@@ -17,11 +17,12 @@ using namespace TestCommon;
 
 #define TEST_CASE FileBasedCallDataParserTest
 
-GTEST(shouldGenerateCallRecordForValidInputFile)
+
+GTEST( shouldGenerateCallRecordForValidInputFile)
 {
-    const char *if_cur_dir_is_root = "test/call_parser/call_data_small.txt";
-    const char *if_cur_dir_is_test = "call_parser/call_data_small.txt";
-    const char *data_file_name = if_cur_dir_is_root;
+	const char *if_cur_dir_is_root = "test/call_parser/call_data_small.txt";
+	   const char *if_cur_dir_is_test = "call_parser/call_data_small.txt";
+	   const char *data_file_name = if_cur_dir_is_root;
     CallDataParser *dataParser = new FileBasedCallDataParser(data_file_name);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
@@ -56,3 +57,6 @@ GTEST(shouldNotGenerateRecordForInvalidFile)
     EXPECT_EQ(0,dataRecords->size());
     release(dataRecords);
 }
+
+
+

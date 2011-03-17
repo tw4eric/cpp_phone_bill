@@ -1,5 +1,5 @@
-#ifndef FILEBASEDCALLDATAPARSER_HH_
-#define FILEBASEDCALLDATAPARSER_HH_
+#ifndef FILEBASEDCALLDATAPARSERV2_HH_
+#define FILEBASEDCALLDATAPARSERV2_HH_
 
 #include <string>
 using namespace std;
@@ -8,11 +8,11 @@ using namespace std;
 
 namespace CallParser {
 
-	class FileBasedCallDataParser : public CallDataParser {
+	class FileBasedCallDataParserV2 : public CallDataParser {
 
 	    public:
-		FileBasedCallDataParser(string fileName);
-	      ~FileBasedCallDataParser();
+	      FileBasedCallDataParserV2(string fileName);
+	      ~FileBasedCallDataParserV2();
 	       virtual list<CallRecord*>* parseRecords();
 		private:
 	       CallRecord* toCallRecord(string line);
