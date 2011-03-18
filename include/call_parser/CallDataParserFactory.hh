@@ -8,7 +8,7 @@
 #ifndef CALLDATAPARSERFACTORY_HH_
 #define CALLDATAPARSERFACTORY_HH_
 #include "call_parser/CallDataParser.hh"
-#include <string>
+#include <cstring>
 using namespace std;
 namespace CallParser {
 class CallDataParserFactory
