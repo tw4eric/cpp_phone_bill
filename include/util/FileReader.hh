@@ -15,10 +15,11 @@ namespace util
 	{
 	public:
 		FileReader(const std::string fileName);
-		~FileReader();
-		bool open();
-		std::string getLine();
-		void close();
+		FileReader(const FileReader& fileReader);
+		virtual ~FileReader();
+		virtual bool open();
+		virtual std::string getLine();
+		virtual void close();
 
 	private:
 		std::string fileNameM;

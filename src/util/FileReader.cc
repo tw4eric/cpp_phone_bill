@@ -11,6 +11,12 @@ namespace util
 
 	}
 
+	FileReader::FileReader(const FileReader& fileReader)
+	: fileNameM(fileReader.fileNameM)
+	{
+
+	}
+
 	FileReader::~FileReader()
 	{
 

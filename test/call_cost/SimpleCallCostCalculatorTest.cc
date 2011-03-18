@@ -9,12 +9,14 @@ using namespace std;
 #include "call_parser/CallDataParser.hh"
 #include "call_parser/FileBasedCallDataParser.hh"
 #include "call_data/CallCostRecord.hh"
+#include "util/FileReader.hh"
 
 using CallCost::CallCostCalculator;
 using CallCost::SimpleCallCostCalculator;
 using CallParser::CallDataParser;
 using CallParser::FileBasedCallDataParser;
 using TestCommon::release;
+using namespace util;
 
 #define TEST_CASE SimpleCallCostCalculatorTest
 
@@ -39,7 +41,8 @@ GTEST(shouldGenerateCallRecordForValidInputFile)
     const char *if_cur_dir_is_root = "test/call_parser/call_data_small.txt";
     const char *if_cur_dir_is_test = "call_parser/call_data_small.txt";
     const char *data_file_name = if_cur_dir_is_root;
-    CallDataParser *dataParser = new FileBasedCallDataParser(data_file_name);
+    FileReader fileReader(data_file_name);
+    CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords != NULL);
