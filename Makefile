@@ -16,3 +16,6 @@ test: all
 clean:
 	@for d in $(SUB_DIRS_WITH_TEST); do cd $$d && make $@ && cd -; done
 	rm -f $(LIBRARY_FILE) $(OBJDIR)/*.o
+
+testrun:
+	cd test && make test
