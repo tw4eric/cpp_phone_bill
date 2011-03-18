@@ -13,3 +13,9 @@ cov.xml
 .cproject
 .project
 *.o
+boost
+include/boost
+include/gtest
+include/gmock
+t
+tags

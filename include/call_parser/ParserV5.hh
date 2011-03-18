@@ -1,7 +1,8 @@
 #ifndef PARSERV5_HH__
 #define PARSERV5_HH__
 
-
+#include<iostream>
+#include<fstream>
 #include <string>
 using namespace std;
 
@@ -19,6 +20,14 @@ namespace CallParser {
 
 		private:
 			string _fileName;
+			bool _validFile;
+			ifstream _infile;
+
+			bool open();
+			CallRecord* toRecord(string);
+			int toSeconds(int);
+			bool IsValidCallerNum(string);
+			bool IsValidDate(string);
 	};
 }
 

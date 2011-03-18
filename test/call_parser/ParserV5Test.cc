@@ -26,3 +26,22 @@ GTEST(shouldParserV5CheckForValidFile)
 	bool valid = dataParser->IsValidFile();
 	ASSERT_TRUE(valid);
 }
+
+
+GTEST(shouldParserV5CheckForValidRecords)
+{
+    const char *if_cur_dir_is_root = "test/call_parser/call_data_V5.txt";
+    const char *if_cur_dir_is_test = "call_parser/call_data_V5.txt";
+    const char *data_file_name = if_cur_dir_is_root;
+	list<CallRecord*> *recordList ;
+    CallDataParser *dataParser = new ParserV5(data_file_name);
+	recordList =  dataParser->parseRecords();
+	EXPECT_TRUE(recordList!=NULL);
+	ASSERT_EQ(2,recordList->size());
+	delete dataParser;
+	delete recordList;
+}
+
+
+
+
