@@ -37,7 +37,7 @@ GTEST(shouldParserV5CheckForValidRecords)
     CallDataParser *dataParser = new ParserV5(data_file_name);
 	recordList =  dataParser->parseRecords();
 	EXPECT_TRUE(recordList!=NULL);
-	ASSERT_EQ(2,recordList->size());
+	ASSERT_EQ(3,recordList->size());
 	delete dataParser;
 	delete recordList;
 }
