@@ -1,4 +1,3 @@
-Makefile
 CMakeCache.txt
 CMakeFiles
 CTestTestfile.cmake
@@ -13,3 +12,4 @@ Debug
 cov.xml
 .cproject
 .project
+*.o
