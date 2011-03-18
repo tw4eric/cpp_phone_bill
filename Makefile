@@ -11,11 +11,7 @@ subdirmake:
 	@for d in $(SUB_DIRS); do cd $$d && make all && cd -; done
 
 test: all
-	cd test && make all
+	cd test && make test
 
 clean:
 	@for d in $(SUB_DIRS_WITH_TEST); do cd $$d && make $@ && cd -; done
-	rm -f $(LIBRARY_FILE) $(OBJDIR)/*.o
-
-testrun:
-	cd test && make test

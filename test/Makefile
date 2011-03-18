@@ -30,4 +30,5 @@ test: all
 	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH} && ./${EXE}
 
 clean:
-	rm -f ${EXES}
+	rm -f ${EXES} ${OBJECTS}
+	rm -rf ${OBJDIR}

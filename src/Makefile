@@ -12,6 +12,7 @@ all: library
 
 clean:
 	rm -f $(OBJECTS)
+	rm -rf ${OBJDIR}
 
 library: ${OBJECTS}
 	${CXX} -fPIC -shared ${LIBLINKFLAGS} -o ${LIBRARY_FILE} ${OBJDIR}/*.o 
