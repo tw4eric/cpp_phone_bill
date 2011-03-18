@@ -7,12 +7,16 @@
 
 #ifndef CALLDATAPARSERFACTORY_HH_
 #define CALLDATAPARSERFACTORY_HH_
+#include "call_parser/CallDataParser.hh"
+#include <string>
+using namespace std;
+namespace CallParser {
 class CallDataParserFactory
 {
 private:
 	unsigned int recognizeParserType(string FileName) const;
 public:
-	CallParser* createParser(string FileName);
+	CallDataParser* createParser(string FileName);
 };
-
+};
 #endif /* CALLDATAPARSERFACTORY_HH_ */
