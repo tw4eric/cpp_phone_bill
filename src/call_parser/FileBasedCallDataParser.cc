@@ -11,107 +11,52 @@ using namespace boost::xpressive;
 
 namespace CallParser {
 
-/*
-<<<<<<< Updated upstream
-        FileBasedCallDataParser::FileBasedCallDataParser(string fileName) :
-                _fileName(fileName) {
-                }
-
-        FileBasedCallDataParser::~FileBasedCallDataParser() {
-        }
-
-
-        list<CallRecord*>* FileBasedCallDataParser::parseRecords() {
-                list<CallRecord*>* callRecordList = new list<CallRecord*> ;
-
-                //util::FileReader fileReader(_fileName);
-                if (!fileReaderM.open()) {
-                        return callRecordList;
-                }
-
-                string line;
-
-                while ((line = fileReaderM.getLine()) != "") {
-                        CallRecord* callRec = toCallRecord(line);
-                        if(callRec != NULL){
-                                callRecordList->push_back(callRec);
-                        }
-                }
-
-                fileReaderM.close();
-
-                return callRecordList;
-        }
-
-        CallRecord* FileBasedCallDataParser::toCallRecord(string line) {
-                sregex rex =
-                        sregex::compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)");
-                smatch what;
-
-                CallRecord* callRec=NULL;
-
-                if (regex_match(line, what, rex)) {
-                        try{
-                                callRec=new CallRecord(what[1],CallType::toCallType(what[2]),
-                                                boost::lexical_cast<int>(what[3]),what[4],what[5]);
-                                return callRec;
-                        }catch(...){
-                                cerr<<"Invalid Record Found: "<<line<<endl;
-                        }
-                }
-                return NULL;
-        }
-*/
     FileBasedCallDataParser::FileBasedCallDataParser(FileReader* fileReader) :
-        fileReaderM(fileReader) {
-    }
+        fileReaderM(fileReader) {}
 
     FileBasedCallDataParser::FileBasedCallDataParser(const FileBasedCallDataParser& fileBasedCallDataParser)
-    : fileReaderM(fileBasedCallDataParser.fileReaderM)
-    {
+    : fileReaderM(fileBasedCallDataParser.fileReaderM) {}
 
-    }
-
-    FileBasedCallDataParser::~FileBasedCallDataParser() {
-    }
+    FileBasedCallDataParser::~FileBasedCallDataParser() {}
 
     list<CallRecord*>* FileBasedCallDataParser::parseRecords() {
-        list<CallRecord*>* callRecordList = new list<CallRecord*> ;
 
         if (!fileReaderM->open()) {
-            return callRecordList;
+            return 0;
         }
+
+        list<CallRecord*>* callRecordList = new list<CallRecord*> ;
 
         string line;
         while ((line = fileReaderM->getLine()) != "") {
             CallRecord* callRec = toCallRecord(line);
-            if(callRec != NULL){
+            if (callRec != 0) {
                 callRecordList->push_back(callRec);
             }
         }
 
         fileReaderM->close();
-
         return callRecordList;
     }
 
     CallRecord* FileBasedCallDataParser::toCallRecord(string line) {
-        sregex rex =
-                sregex::compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)");
+        sregex rex = sregex::compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)");
         smatch what;
 
-        CallRecord* callRec=NULL;
+        CallRecord* callRec = 0;
 
         if (regex_match(line, what, rex)) {
-            try{
-                callRec=new CallRecord(what[1],CallType::toCallType(what[2]),
+            cout << "Line matched expected pattern: " << line << endl;
+            try {
+                callRec = new CallRecord(what[1],CallType::toCallType(what[2]),
                     boost::lexical_cast<int>(what[3]),what[4],what[5]);
                 return callRec;
-            }catch(...){
-                cerr<<"Invalid Record Found: "<<line<<endl;
-                return NULL;
+            } catch (...) {
+                cerr << "Invalid Record Found: " << line << endl;
+                return 0;
             }
-//>>>>>>> Stashed changes
         }
+
+        return 0;
     }
 }

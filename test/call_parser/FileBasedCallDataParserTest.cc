@@ -70,7 +70,7 @@ GTEST(shouldGenerateOneCallRecord)
 {
     const string data_file_name("dummyfile");
     MockFileReader fileReader(data_file_name);
-    EXPECT_CALL(fileReader, open()).Times(1);
+    EXPECT_CALL(fileReader, open()).Times(1).WillOnce(Return(true));
     EXPECT_CALL(fileReader, getLine())
         .Times(2)
         .WillOnce(Return("21/02/2011 LOC 5 Nick 974503244"))
@@ -93,7 +93,7 @@ GTEST(shouldNotGenerateCallRecordForEntryWithInvalidCallDuration)
 {
     const string data_file_name("dummyfile");
     MockFileReader fileReader(data_file_name);
-    EXPECT_CALL(fileReader, open()).Times(1);
+    EXPECT_CALL(fileReader, open()).Times(1).WillOnce(Return(true));
     EXPECT_CALL(fileReader, getLine())
         .Times(2)
         .WillOnce(Return("04/01/2011 LOC MNO InvalidRecord 164503234"))
@@ -102,7 +102,7 @@ GTEST(shouldNotGenerateCallRecordForEntryWithInvalidCallDuration)
     CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
-    EXPECT_TRUE(dataRecords == NULL);
+    EXPECT_TRUE(dataRecords->size() == 0);
 }
 
 
@@ -154,9 +154,7 @@ GTEST(shouldNotGenerateRecordForInvalidFile)
 	CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
-    EXPECT_TRUE(dataRecords != NULL);
-    EXPECT_EQ(0,dataRecords->size());
-    release(dataRecords);
+    EXPECT_TRUE(dataRecords == NULL);
 }
 
 
