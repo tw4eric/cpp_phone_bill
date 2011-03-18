@@ -28,16 +28,28 @@ GTEST(shouldNotReadFirstLineOfRecordInFile)
 {
     CallDataParser *dataParser = new FileBasedCallDataParserV2("test/call_parser/call_data_small.txt");
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
-    EXPECT_TRUE(dataRecords == NULL);
+    EXPECT_TRUE(dataRecords != NULL);
+    EXPECT_EQ(0,dataRecords->size());
+    release(dataRecords);
 }
 
 GTEST(shouldNotGenerateRecordForInvalidFile)
 {
+	const char *if_cur_dir_is_root = "XX";
+    CallDataParser *dataParser = new FileBasedCallDataParserV2(if_cur_dir_is_root);
+    list<CallRecord*>* dataRecords = dataParser->parseRecords();
+    EXPECT_TRUE(dataRecords != NULL);
+    EXPECT_EQ(0,dataRecords->size());
+    release(dataRecords);
+
+}
+GTEST(shouldGenerateRecordForValidFile)
+{
 	const char *if_cur_dir_is_root = "test/call_parser/call_data_smallv2.txt";
     CallDataParser *dataParser = new FileBasedCallDataParserV2(if_cur_dir_is_root);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
-    EXPECT_TRUE(dataRecords == NULL);
-
+    EXPECT_TRUE(dataRecords != NULL);
+    release(dataRecords);
 }
 
 

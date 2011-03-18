@@ -6,6 +6,8 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include "util/FileReader.hh"
+
 using namespace std;
 using namespace boost::xpressive;
 
@@ -19,28 +21,30 @@ FileBasedCallDataParserV2::~FileBasedCallDataParserV2() {
 }
 
 list<CallRecord*>* FileBasedCallDataParserV2::parseRecords() {
-	list<CallRecord*>* callRecordList = NULL;
+	list<CallRecord*>* callRecordList = new list<CallRecord*> ;
 
-	ifstream recFile(_fileName.c_str());
+	util::FileReader fileReader(_fileName);
 
-	if (!recFile) {
-		cerr << "Unable to open file: " << _fileName << endl;
+	if (!fileReader.open()) {
 		return callRecordList;
 	}
 
 	string line;
-	std::getline(recFile, line);
+    line = fileReader.getLine();
 
-	if (strcmp(line.c_str(), "#V2")) {
-		while (std::getline(recFile, line)) {
+	if (strcmp(line.c_str(), "#v2")==0)
+	{
+		while ((line = fileReader.getLine()) != "")
+		{
 			CallRecord* callRec = toCallRecord(line);
-			if (callRec != NULL) {
-				callRecordList->push_back(callRec);
+			if (callRec != NULL)
+			{
+					callRecordList->push_back(callRec);
 			}
 		}
 	}
 
-	recFile.close();
+	fileReader.close();
 
 	return callRecordList;
 }
@@ -48,13 +52,13 @@ list<CallRecord*>* FileBasedCallDataParserV2::parseRecords() {
 CallRecord* FileBasedCallDataParserV2::toCallRecord(string line) {
 	sregex rex = sregex::compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)");
 	smatch what;
-
 	CallRecord* callRec = NULL;
 
 	if (regex_match(line, what, rex)) {
 		try {
-			callRec = new CallRecord(what[2], CallType::toCallType(what[3]),
-					boost::lexical_cast<int>(what[4]), what[5], what[1]);
+
+            callRec=new CallRecord(what[2],CallType::toCallType(what[3]),
+                             boost::lexical_cast<int>(what[4]),what[5],what[1]);
 			return callRec;
 		} catch (...) {
 			cerr << "Invalid Record Found: " << line << endl;
