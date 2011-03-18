@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6.4)
+cmake_minimum_required(VERSION 2.8)
 ENABLE_TESTING()
 set(PROJ_NAME "cpp_phone_bill")
 project(${PROJ_NAME} CXX)
