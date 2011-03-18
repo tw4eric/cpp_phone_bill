@@ -1,8 +1,6 @@
 TOP_DIR = ..
 OBJDIR=./.obj
 
-LD_LIBRARY_PATH=`gtest-config --libdir`:`gmock-config --libdir`:..
-
 include ${TOP_DIR}/global.mak
 LIBLINKFLAGS+=`gtest-config --cxxflags`
 LIBLINKFLAGS+=`gtest-config --ldflags`
@@ -27,7 +25,7 @@ ${EXE}:${OBJECTS}
 all: ${EXE}
 
 test: all
-	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH} && ./${EXE}
+	export LD_LIBRARY_PATH=..:${LD_LIBRARY_PATH} && ./${EXE}
 
 clean:
 	rm -f ${EXES} ${OBJECTS}
