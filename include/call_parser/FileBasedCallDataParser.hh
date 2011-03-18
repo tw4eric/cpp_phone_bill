@@ -18,7 +18,7 @@ namespace CallParser {
 		FileBasedCallDataParser(string fileName);
 =======
 */
-		  FileBasedCallDataParser(util::FileReader fileReader);
+		  FileBasedCallDataParser(util::FileReader* fileReader);
 		  FileBasedCallDataParser(const FileBasedCallDataParser& fileBasedCallDataParser);
 //>>>>>>> Stashed changes
 	      ~FileBasedCallDataParser();
@@ -26,7 +26,7 @@ namespace CallParser {
 		private:
 	       CallRecord* toCallRecord(string line);
 
-	       util::FileReader fileReaderM;
+	       util::FileReader* fileReaderM;
 	};
 }
 

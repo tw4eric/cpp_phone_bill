@@ -42,7 +42,7 @@ GTEST(shouldGenerateCallRecordForValidInputFile)
     const char *if_cur_dir_is_test = "call_parser/call_data_small.txt";
     const char *data_file_name = if_cur_dir_is_root;
     FileReader fileReader(data_file_name);
-    CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
+    CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords != NULL);

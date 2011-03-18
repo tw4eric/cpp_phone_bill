@@ -23,7 +23,7 @@ using ::testing::Return;
 class MockFileReader : public ::util::FileReader {
 
 public:
-	MockFileReader(const string &filename) : FileReader(filename) {}
+	MockFileReader(const string &filename) : util::FileReader(filename) {}
  public:
   MOCK_METHOD0(open, bool());
   MOCK_METHOD0(getLine, string());
@@ -46,7 +46,7 @@ GTEST(countOftheCallRecordsMustBeEqualToNumberOfValidEntries)
 {
     const string data_file_name("dummyfile");
     MockFileReader fileReader(data_file_name);
-    EXPECT_CALL(fileReader, open()).Times(1);
+    EXPECT_CALL(fileReader, open()).Times(1).WillOnce(Return(true));
     EXPECT_CALL(fileReader, getLine())
         .Times(7)
         .WillOnce(Return("21/02/2011 LOC 5 Nick 974503244"))
@@ -57,7 +57,7 @@ GTEST(countOftheCallRecordsMustBeEqualToNumberOfValidEntries)
 		.WillOnce(Return("04/01/2011ISD 30 InvalidRecord 164503234"))
         .WillOnce(Return(""));
     EXPECT_CALL(fileReader, close()).Times(1);
-    CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
+    CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords != NULL);
@@ -76,7 +76,7 @@ GTEST(shouldGenerateOneCallRecord)
         .WillOnce(Return("21/02/2011 LOC 5 Nick 974503244"))
         .WillOnce(Return(""));
     EXPECT_CALL(fileReader, close()).Times(1);
-    CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
+    CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords != NULL);
@@ -99,7 +99,7 @@ GTEST(shouldNotGenerateCallRecordForEntryWithInvalidCallDuration)
         .WillOnce(Return("04/01/2011 LOC MNO InvalidRecord 164503234"))
         .WillOnce(Return(""));
     EXPECT_CALL(fileReader, close()).Times(1);
-    CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
+    CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords == NULL);
@@ -151,7 +151,7 @@ GTEST(shouldGenerateCallRecordForValidInputFile)
 GTEST(shouldNotGenerateRecordForInvalidFile)
 {
     util::FileReader fileReader("xx");
-	CallDataParser *dataParser = new FileBasedCallDataParser(fileReader);
+	CallDataParser *dataParser = new FileBasedCallDataParser(&fileReader);
     list<CallRecord*>* dataRecords = dataParser->parseRecords();
 
     EXPECT_TRUE(dataRecords != NULL);

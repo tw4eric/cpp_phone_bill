@@ -62,7 +62,7 @@ namespace CallParser {
                 return NULL;
         }
 */
-    FileBasedCallDataParser::FileBasedCallDataParser(FileReader fileReader) :
+    FileBasedCallDataParser::FileBasedCallDataParser(FileReader* fileReader) :
         fileReaderM(fileReader) {
     }
 
@@ -78,19 +78,19 @@ namespace CallParser {
     list<CallRecord*>* FileBasedCallDataParser::parseRecords() {
         list<CallRecord*>* callRecordList = new list<CallRecord*> ;
 
-        if (!fileReaderM.open()) {
+        if (!fileReaderM->open()) {
             return callRecordList;
         }
 
         string line;
-        while ((line = fileReaderM.getLine()) != "") {
+        while ((line = fileReaderM->getLine()) != "") {
             CallRecord* callRec = toCallRecord(line);
             if(callRec != NULL){
                 callRecordList->push_back(callRec);
             }
         }
 
-        fileReaderM.close();
+        fileReaderM->close();
 
         return callRecordList;
     }
@@ -109,6 +109,7 @@ namespace CallParser {
                 return callRec;
             }catch(...){
                 cerr<<"Invalid Record Found: "<<line<<endl;
+                return NULL;
             }
 //>>>>>>> Stashed changes
         }

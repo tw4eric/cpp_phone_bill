@@ -6,6 +6,7 @@
  */
 #include <fstream>
 #include <iostream>
+#include "util/FileReader.hh"
 #include "call_parser/CallDataParserFactory.hh"
 #include "call_parser/FileBasedCallDataParser.hh"
 #include "call_parser/FileBasedCallDataParserV2.hh"
@@ -60,7 +61,7 @@ CallDataParser* CallDataParserFactory::createParser(string FileName)
 	{
 		case 1:
 		{
-			return new FileBasedCallDataParser(FileName);
+			return new FileBasedCallDataParser(new util::FileReader(FileName));
 		}
 		case 2:
 		{
