@@ -17,3 +17,5 @@ boost
 t
 tags
 *.gcno
+Makefile
+core
