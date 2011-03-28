@@ -15,4 +15,4 @@ clean:
 	rm -rf ${OBJDIR}
 
 library: ${OBJECTS}
-	${CXX} -fPIC -shared ${LIBLINKFLAGS} -o ${LIBRARY_FILE} ${OBJDIR}/*.o 
+	${CXX} -shared -Wl,-soname,${LIBRARY_FILE} ${LIBLINKFLAGS} -o ${TOP_DIR}/${LIBRARY_FILE} ${OBJDIR}/*.o 

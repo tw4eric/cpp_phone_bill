@@ -20,7 +20,7 @@ ${OBJECTS}:${OBJDIR}
 EXE=cpp_phone_bill_tests
 
 ${EXE}:${OBJECTS}
-	${CXX} ${LIBLINKFLAGS} ${OBJECTS} -o $@
+	${CXX} ${LIBLINKFLAGS} ${CPPFLAGS} ${OBJECTS} -o $@
 
 all: ${EXE}
 
